@@ -1,0 +1,17 @@
+# Database Configuration
+spring.datasource.url=jdbc:postgresql://localhost:5432/auralynk
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+
+# JWT Configuration
+jwt.secret=your-secret-key
+jwt.expiration=86400000
+
+# Google OAuth2 Configuration
+google.client.id=your-google-client-id
+
+# OpenAI Configuration
+openai.api.key=your-openai-api-key
+
+# HuggingFace Configuration
+huggingface.api.token=your-huggingface-token 
