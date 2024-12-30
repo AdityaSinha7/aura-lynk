@@ -54,13 +54,14 @@ public class ChatService {
             log.debug("Built conversation history with {} messages", messages.size());
 
             // Add user's new message
-            messages.add(new ChatMessageDTO("user", userMessage));
+            // messages.add(new ChatMessageDTO("user", userMessage));
+            // New message already added in buildConversationHistory when fetch from db
 
-            log.debug("Sending request to OpenAI");
+            log.debug("Sending request to AI");
             // Get AI response
             String aiResponse = aiChatService.generateResponse(messages, session.getAiModel());
 
-            log.debug("Received response from OpenAI");
+            log.debug("Received response from AI");
             // Save AI response
             return saveMessage(session, "assistant", aiResponse);
         } catch (Exception e) {
