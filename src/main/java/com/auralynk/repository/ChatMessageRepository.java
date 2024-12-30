@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
-    Page<ChatMessage> findBySessionOrderByTimestampDesc(ChatSession session, Pageable pageable);
+    Page<ChatMessage> findBySessionOrderByTimestampAsc(ChatSession session, Pageable pageable);
     List<ChatMessage> findBySessionOrderByTimestamp(ChatSession session);
 } 

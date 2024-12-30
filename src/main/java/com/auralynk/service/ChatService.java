@@ -46,9 +46,6 @@ public class ChatService {
         }
 
         log.debug("Processing message for session: {}", session.getId());
-
-        // Save user message
-        ChatMessage userChatMessage = saveMessage(session, "user", userMessage);
         
         try {
             // Get conversation history
@@ -87,12 +84,11 @@ public class ChatService {
 
     private List<ChatMessageDTO> buildConversationHistory(ChatSession session) {
         // Get last 50 messages for context
-        Page<ChatMessage> historyPage = messageRepository.findBySessionOrderByTimestampDesc(
+        Page<ChatMessage> historyPage = messageRepository.findBySessionOrderByTimestampAsc(
             session,
             PageRequest.of(0, 50, Sort.by(Sort.Direction.DESC, "timestamp"))
         );
         List<ChatMessage> history = new ArrayList<>(historyPage.getContent());
-        Collections.reverse(history); // Now safe to reverse the ArrayList
         List<ChatMessageDTO> messages = new ArrayList<>();
         
         // Add system message for context
@@ -119,7 +115,7 @@ public class ChatService {
     }
 
     public Page<ChatMessage> getMessagesBySession(ChatSession session, Pageable pageable) {
-        return messageRepository.findBySessionOrderByTimestampDesc(session, pageable);
+        return messageRepository.findBySessionOrderByTimestampAsc(session, pageable);
     }
 
     public void deleteSession(ChatSession session) {
@@ -145,10 +141,10 @@ public class ChatService {
         // Get AI response
         ChatMessage aiResponse = processMessage(session, message);
         
-        // Update session's last message time
+        // Update session's last message timestamp
         session.setLastMessageAt(LocalDateTime.now());
         sessionRepository.save(session);
-
+        
         return aiResponse;
     }
 } 
